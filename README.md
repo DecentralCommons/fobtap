@@ -6,7 +6,7 @@ Setup a
 // Todo: how to setup rasp Pi
 
 To setup run 
-- `git clone ` 
+- `git clone git@github.com:dctrl-ao/fobtap.git` 
 - `sudo node initialize.js`
 This will start a terminal prompt to initialize your pi tap point. You need to know: 
 - Where the dctrl-ao server is located.
