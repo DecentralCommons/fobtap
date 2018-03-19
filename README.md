@@ -8,6 +8,7 @@ Setup a
 To setup run 
 - `git clone git@github.com:dctrl-ao/fobtap.git` 
 - `sudo node initialize.js`
+
 This will start a terminal prompt to initialize your pi tap point. You need to know: 
 - Where the dctrl-ao server is located.
 - The name of the new "resource" you are creating with this tap point.
@@ -15,4 +16,4 @@ This will start a terminal prompt to initialize your pi tap point. You need to k
 - (Optionally) The type of pin reaction you want to trigger.*
 - Your dctrl-ao hackername/password
 
-The pi will create a resource in dctrl-ao. It will track and display who has tapped on the admin. The two default pin reactions were designed for controlling a door mag lock and an override of a 1960's vending machine. 
+The pi will create a resource in dctrl-ao. It will display who has tapped recently and keep a record. The two default pin reactions were designed for controlling a door mag lock and an override of a 1960's vending machine. 
