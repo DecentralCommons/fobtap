@@ -94,7 +94,7 @@ prompt.get([{
 
 function auth(admin, name, secret, callback){
     let session = uuidV1()
-    let sessionKey = cryptoUtils.createHash(session + secret)
+    let sessionKey = cryptoUtils.createHash(session + cryptoUtils.createHash(secret))
     let token = cryptoUtils.hmacHex(session, sessionKey)
     console.log(colors.yellow('authenticating user', name, secret))
     request
