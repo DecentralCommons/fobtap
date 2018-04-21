@@ -7,6 +7,8 @@ function auth(admin, name, secret, callback){
     let sessionKey = cryptoUtils.createHash(session + cryptoUtils.createHash(secret))
     let token = cryptoUtils.hmacHex(session, sessionKey)
 
+    console.log("attempting new session: ", {token, session, name})
+
     request
         .post(admin + 'session')
         .set('Authorization', token)
