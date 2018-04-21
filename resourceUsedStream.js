@@ -17,7 +17,7 @@ socket.on('connect', ()=> {
     console.log('socket connected')
     utils.auth( config.brainLocation, config.resourceId, config.secret, (err, token)=>{
 
-        console.log('authenticated', token)
+        console.log('authenticated', {err, token})
         socket.emit('authentication', {
             token
         })
@@ -32,7 +32,6 @@ socket.on('connect', ()=> {
                 ev.ownerId === config.resourceId
             ){
                 let amount = 1
-                // TODO: payout by CAD_AMOUNT / config.charged
                 resourceUsed(amount)
             }
 

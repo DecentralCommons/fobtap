@@ -14,6 +14,7 @@ function auth(admin, name, secret, callback){
         .set('name', name)
         .end((err,res)=>{
             if (err) {
+                console.log({err})
                 return callback(err)
             }
             console.log("authenticated credentials:", {name, session, token})
