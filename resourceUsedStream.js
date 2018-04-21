@@ -11,15 +11,17 @@ module.exports = Kefir.stream(emitter => {
 }).log('resourceUsedStream')
 
 
-utils.auth( config.brainLocation, config.resourceId, config.secret, (err, token)=>{
+console.log('starting resource used stream')
 
-    socket.on('connect', ()=> {
-        console.log('Connected!!!!*!~!!*~!~!~*~~')
+socket.on('connect', ()=> {
+    console.log('socket connected')
+    utils.auth( config.brainLocation, config.resourceId, config.secret, (err, token)=>{
 
+        console.log('authenticated', token)
         socket.emit('authentication', {
             token
         })
-        
+
         socket.on('authenticated', () => {
           console.log('Connected with authentication!!!!*!~!!*~!~!~*~~')
 
