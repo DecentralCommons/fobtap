@@ -26,11 +26,9 @@ var filter
 //     })
 
 fobtapStream
-  .log()
   .throttle(2345, {trailing: false})
   .onValue(fob => {
-    request
-        .post(config.brainLocation + 'fobtap')
+    request.post(config.brainLocation + 'fobtap')
         .set('Authorization', config.token)
         .send({
             fob,

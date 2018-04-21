@@ -6,6 +6,7 @@ const uuidV4 = require('uuid/v4')
 const colors = require("colors/safe");
 const fs = require('fs')
 const cryptoUtils = require('./crypto')
+const utils = require('./utils')
 
 prompt.delimiter = colors.red("(>-_-<)")
 prompt.start()
@@ -18,7 +19,7 @@ prompt.get([{
     required: true,
   },{
     name: 'name',
-    default: 'newsource',
+    default: '',
     description: colors.white( 'Provide a name for the new resource.'),
     type: 'string',
     required: true,
@@ -49,15 +50,11 @@ prompt.get([{
       required: true,
   }], function (err, promptData) {
 
-
-
-      auth(promptData.admin, promptData.hackername, promptData.secret, (err, token)=>{
+      utils.auth(promptData.admin, promptData.hackername, promptData.secret, (err, token)=>{
           if (err) {
               console.log('authentication failed, try again?')
               return prompt.stop()
           }
-
-          console.log({token})
 
           createResource(promptData.admin, token, promptData.name, promptData.charged, (err, resourceInfo)=> {
               if (err){
@@ -66,51 +63,23 @@ prompt.get([{
                   return prompt.stop()
               }
 
-              console.log(colors.blue("resource created"), {resourceInfo})
-
-              auth(promptData.admin, resourceInfo.resourceId, resourceInfo.secret, (err, resourceToken)=> {
-                  console.log({resourceToken})
-
-                  console.log(colors.yellow("Going to guess which keyboard is the reader"))
-                  fs.readdir("/dev/input/by-id", function(err, items) {
-                      console.log(colors.yellow("found input: ", items[0]))
-                      console.log({promptData})
-                      let str = "module.exports = " + JSON.stringify({
-                          brainLocation: promptData.admin,
-                          resourceId: resourceInfo.resourceId,
-                          secret: resourceInfo.secret,
-                          reaction: promptData.reaction,
-                          token: resourceToken,
-                          fobReader: "/dev/input/by-id/" + items[0] // ls /dev/input/by-id
-                      })
-
-                      fs.writeFileSync(__dirname + '/configuration.js', str)
-                      console.log(colors.green( 'SUCCESS!!@#$@#@!' ))
-                    })
+              console.log(colors.yellow("Going to guess which keyboard is the reader"))
+              fs.readdir("/dev/input/by-id", function(err, items) {
+                  console.log(colors.yellow("found input: ", items[0]))
+                  console.log({promptData})
+                  let str = "module.exports = " + JSON.stringify({
+                      brainLocation: promptData.admin,
+                      resourceId: resourceInfo.resourceId,
+                      secret: resourceInfo.secret,
+                      reaction: promptData.reaction,
+                      fobReader: "/dev/input/by-id/" + items[0] // ls /dev/input/by-id
+                  })
+                  fs.writeFileSync(__dirname + '/configuration.js', str)
+                  console.log(colors.green( 'SUCCESS!!@#$@#@!' ))
               })
           })
       })
-});
-
-function auth(admin, name, secret, callback){
-    let session = uuidV1()
-    let sessionKey = cryptoUtils.createHash(session + cryptoUtils.createHash(secret))
-    let token = cryptoUtils.hmacHex(session, sessionKey)
-    console.log(colors.yellow('authenticating user', name, secret))
-    request
-        .post(admin + 'session')
-        .set('Authorization', token)
-        .set('Session', session)
-        .set('name', name)
-        .end((err,res)=>{
-            if (err) {
-                console.log(err)
-                return callback(err)
-            }
-            console.log(colors.green("authenticated credentials for " + name))
-            callback(null, token)
-        })
-}
+})
 
 function createResource(admin, token, name, charged, callback){
     let resourceId = uuidV1()
@@ -127,8 +96,7 @@ function createResource(admin, token, name, charged, callback){
             secret
         })
         .end((err, res)=> {
-            if (err) return callback(err);
-
+            if (err) return callback(err)
             callback(null, {
                 secret,
                 resourceId
