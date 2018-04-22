@@ -10,7 +10,6 @@ module.exports = Kefir.stream(emitter => {
     resourceUsed = emitter.emit
 }).log('resourceUsedStream')
 
-
 console.log('starting resource used stream')
 
 socket.on('connect', ()=> {

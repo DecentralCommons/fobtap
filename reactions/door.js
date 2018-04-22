@@ -1,7 +1,7 @@
 
 const resourceUsedStream = require('../resourceUsedStream')
-const Gpio = require('onoff').Gpio
-const pin = new Gpio(17, 'out')
+// const Gpio = require('onoff').Gpio
+// const pin = new Gpio(17, 'out')
 
 console.log('door reaction initialized')
 
@@ -15,10 +15,11 @@ resourceUsedStream
     .onValue(door)
 
 function door(){
-    pin.writeSync(1)
-    setTimeout(()=>{
-        pin.writeSync(0)
-    }, 12345)
+    console.log('door ')
+    // pin.writeSync(1)
+    // setTimeout(()=>{
+    //     pin.writeSync(0)
+    // }, 12345)
 }
 
 module.exports = door

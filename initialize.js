@@ -84,22 +84,21 @@ prompt.get([{
 function createResource(admin, token, name, charged, callback){
     let resourceId = uuidV1()
     let secret = uuidV4()
+    let newResource = {
+        type: 'resource-created',
+        resourceId,
+        name,
+        charged,
+        secret
+    }
     console.log('attempting to create new resource:', name)
+
     request
         .post(admin + 'events')
         .set('Authorization', token)
-        .send({
-            type: 'resource-created',
-            resourceId,
-            name,
-            charged,
-            secret
-        })
+        .send(newResource)
         .end((err, res)=> {
             if (err) return callback(err)
-            callback(null, {
-                secret,
-                resourceId
-            })
+            callback(null, newResource)
         })
 }

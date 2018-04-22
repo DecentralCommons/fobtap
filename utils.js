@@ -3,6 +3,7 @@ const request = require('superagent')
 const cryptoUtils = require('./crypto')
 
 function auth(admin, name, secret, callback){
+
     let session = uuidV1()
     let sessionKey = cryptoUtils.createHash(session + cryptoUtils.createHash(secret))
     let token = cryptoUtils.hmacHex(session, sessionKey)
