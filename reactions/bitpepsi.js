@@ -1,6 +1,7 @@
+// XXX broken old format
+
 
 const Kefir = require('kefir')
-const resourceUsedStream = require('../resourceUsedStream')
 const Gpio = require('onoff').Gpio
 const pin17 = new Gpio(17, 'out')
 const pin18 = new Gpio(18, 'out')

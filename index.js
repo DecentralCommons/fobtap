@@ -4,8 +4,8 @@ const request = require('superagent')
 const cryptoUtils = require('./crypto')
 const fobtapStream = require('./fobtapStream')
 const utils = require('./utils')
-
-require('./reactions/' + config.reaction)
+const reaction = require('./reactions/' + config.reaction)
+const socket = io('ws://' + config.brainLocation)
 
 utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=> {
 
@@ -27,20 +27,30 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
           .end( (err, res)=>{
               if (err) {
                   console.log({err})
-                  // TODO:
-                  // if (config.reaction === 'door' && filter.contains( cryptoUtils.createHash(fob))){
-                  //     console.log('fob passed bloom filter')
-                  //     door()
-                  // }
-                  // return console.log('err res from server, may be down need a fallback', err)
               } else {
                   console.log('fobtap registered!')
               }
           })
   })
 
+  socket.on('connect', ()=> {
 
+      socket.emit('authentication', {
+          token
+      })
+          socket.on('authenticated', () => {
+              console.log('Connected with authentication!!!!*!~!!*~!~!~*~~')
 
-
-
+              socket.on('eventstream', ev => {
+                  console.log('evstream', ev)
+                  if (
+                      ev.ownerId === config.resourceId &&
+                      (ev.type === 'invoice-paid' || ev.type === 'resource-used')
+                  ){
+                      let amount = 1
+                      reaction(amount)
+                  }
+              })
+          })
+      })
 })
