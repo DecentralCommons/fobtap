@@ -5,6 +5,7 @@ const cryptoUtils = require('./crypto')
 const fobtapStream = require('./fobtapStream')
 const utils = require('./utils')
 const reaction = require('./reactions/' + config.reaction)
+const io = require('socket.io-client')
 const socket = io('ws://' + config.brainLocation)
 
 utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=> {
