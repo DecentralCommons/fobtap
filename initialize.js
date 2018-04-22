@@ -1,12 +1,12 @@
-
+const colors = require('colors')
 const prompt = require('prompt')
 const request = require('superagent')
 const uuidV1 = require('uuid/v1')
 const uuidV4 = require('uuid/v4')
-const colors = require("colors/safe");
 const fs = require('fs')
 const cryptoUtils = require('./crypto')
 const utils = require('./utils')
+
 
 prompt.delimiter = colors.red("(>-_-<)")
 prompt.start()
@@ -70,7 +70,7 @@ prompt.get([{
                   let str = "module.exports = " + JSON.stringify({
                       brainLocation: promptData.admin,
                       resourceId: resourceInfo.resourceId,
-                      secret: resourceInfo.secret,
+                      secret: resourceInfo.rawSecret,
                       reaction: promptData.reaction,
                       fobReader: "/dev/input/by-id/" + items[0] // ls /dev/input/by-id
                   })
@@ -83,7 +83,8 @@ prompt.get([{
 
 function createResource(admin, token, name, charged, callback){
     let resourceId = uuidV1()
-    let secret = uuidV4()
+    let rawSecret = uuidV4()
+    let secret = cryptoUtils.createHash(rawSecret)
     let newResource = {
         type: 'resource-created',
         resourceId,
@@ -99,6 +100,7 @@ function createResource(admin, token, name, charged, callback){
         .send(newResource)
         .end((err, res)=> {
             if (err) return callback(err)
+            newResource.rawSecret = rawSecret
             callback(null, newResource)
         })
 }
