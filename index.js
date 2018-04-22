@@ -3,7 +3,7 @@ const config = require('./configuration')
 const request = require('superagent')
 const cryptoUtils = require('./crypto')
 const fobtapStream = require('./fobtapStream')
-const state = require('./state')
+const utils = require('./utils')
 
 require('./reactions/' + config.reaction)
 
@@ -14,6 +14,8 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
   fobtapStream
     .throttle(2345, {trailing: false})
     .onValue(fob => {
+
+      console.log('attempting to register fobtap with token:', token)
 
       request
           .post(config.brainLocation + 'fobtap')
