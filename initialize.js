@@ -7,7 +7,6 @@ const fs = require('fs')
 const cryptoUtils = require('./crypto')
 const utils = require('./utils')
 
-
 prompt.delimiter = colors.red("(>-_-<)")
 prompt.start()
 

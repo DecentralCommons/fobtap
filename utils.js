@@ -20,7 +20,7 @@ function auth(admin, name, secret, callback){
                 console.log({err})
                 return callback(err)
             }
-            console.log("authenticated credentials:", {name, session, token})
+            console.log("authenticated credentials:", {session, token}, res.body)
             callback(null, token)
         })
 }
