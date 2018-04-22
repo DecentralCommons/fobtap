@@ -45,10 +45,10 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
               socket.on('eventstream', ev => {
                   console.log('evstream', ev)
                   if (
-                      ev.ownerId === config.resourceId &&
+                      ev.resourceId === config.resourceId &&
                       (ev.type === 'invoice-paid' || ev.type === 'resource-used')
                   ){
-                      let amount = 1
+                      let amount = ev.amount || 1
                       reaction(amount)
                   }
               })
