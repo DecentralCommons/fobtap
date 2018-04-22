@@ -12,13 +12,15 @@ state.initialize()
 fobtapStream
   .throttle(2345, {trailing: false})
   .onValue(fob => {
+    console.log('making request with token', state.state.token)
+    
     request
         .post(config.brainLocation + 'fobtap')
-        .set('Authorization', state.token)
+        .set('Authorization', state.state.token || 'xxx')
         .send({
             fob,
             resourceId: config.resourceId
-          })
+        })
         .end( (err, res)=>{
             if (err) {
                 console.log({err})
@@ -28,7 +30,8 @@ fobtapStream
                 //     door()
                 // }
                 // return console.log('err res from server, may be down need a fallback', err)
+            } else {
+                console.log('fobtap registered!')
             }
-            console.log('fobtap registered!')
         })
 })
