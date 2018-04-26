@@ -11,7 +11,14 @@ pin18.writeSync(1)
 pin17.writeSync(0)
 
 resourceUsedStream.log('dispense')
-module.exports = bitPepsi(resourceUsedStream)
+
+let bitpepsiStream = Kefir.stream(emitter => {
+    emit = emitter.emit
+}).log()
+
+module.exports = emit
+
+bitpepsi(bitpepsiStream)
 
 // payment logic recieves stream of payments and ensures payouts are spaced out
 function bitPepsi(paymentStream) {
@@ -70,5 +77,5 @@ function beer(){
     setTimeout(()=>{
         pin17.writeSync(0)
         pin18.writeSync(1)
-    }, 500)
+    }, 999)
 }
