@@ -8,6 +8,9 @@ const reaction = require('./reactions/' + config.reaction)
 const io = require('socket.io-client')
 
 utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=> {
+  if (err) {
+      throw new Error("Unable to authenticate");
+  }
 
   console.log('starting fobtap stream with auth:', token)
 

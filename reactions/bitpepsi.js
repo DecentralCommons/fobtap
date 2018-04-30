@@ -10,15 +10,13 @@ const pin18 = new Gpio(18, 'out')
 pin18.writeSync(1)
 pin17.writeSync(0)
 
-resourceUsedStream.log('dispense')
-
-let bitpepsiStream = Kefir.stream(emitter => {
+let dispenseStream = Kefir.stream(emitter => {
     emit = emitter.emit
 }).log()
 
 module.exports = emit
 
-bitpepsi(bitpepsiStream)
+bitPepsi(dispenseStream)
 
 // payment logic recieves stream of payments and ensures payouts are spaced out
 function bitPepsi(paymentStream) {

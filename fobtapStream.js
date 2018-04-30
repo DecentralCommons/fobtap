@@ -13,7 +13,6 @@ module.exports = Kefir.stream(emitter => {
     emit = emitter.emit
 }).log()
 
-
 reader.on("EV_KEY", function(data) {
     if (data.value == 1)
         keyparse(data.code)
