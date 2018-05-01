@@ -73,10 +73,12 @@ function bitPepsi(paymentStream) {
 function beer(){
     pin17.writeSync(1)
     pin27.writeSync(1)
-    pin18.writeSync(0)
+    // pin18.writeSync(0)
     setTimeout(()=>{
         pin17.writeSync(0)
-        pin27.writeSync(0)
-        pin18.writeSync(1)
+        // pin18.writeSync(1)
     }, 533)
+    setTimeout(()=> {
+        pin27.writeSync(0)
+    }, 3333)
 }
