@@ -5,6 +5,7 @@ const Kefir = require('kefir')
 const Gpio = require('onoff').Gpio
 const pin17 = new Gpio(17, 'out')
 const pin18 = new Gpio(18, 'out')
+const pin27 = new Gpio(27, 'out')
 
 // pin18 goes low while pin 17 goes high pin trigger
 pin18.writeSync(1)
@@ -70,10 +71,12 @@ function bitPepsi(paymentStream) {
 }
 
 function beer(){
-    pin18.writeSync(0)
     pin17.writeSync(1)
+    pin27.writeSync(1)
+    pin18.writeSync(0)
     setTimeout(()=>{
         pin17.writeSync(0)
+        pin27.writeSync(0)
         pin18.writeSync(1)
-    }, 333)
+    }, 533)
 }
