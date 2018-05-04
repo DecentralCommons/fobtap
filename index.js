@@ -13,8 +13,6 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
       throw new Error("Unable to authenticate");
   }
 
-  console.log('starting fobtap stream with auth:', token)
-
   fobtapStream
     .throttle(2345, {trailing: false})
     .onValue(fob => {
@@ -38,23 +36,20 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
   })
 
   socket.on('connect', ()=> {
-
-      socket.emit('authentication', {
-          token
-      })
-          socket.on('authenticated', () => {
-              console.log('Connected with authentication!!!!*!~!!*~!~!~*~~')
-
-              socket.on('eventstream', ev => {
-                  console.log('evstream', ev)
-                  if (
-                      ev.resourceId === config.resourceId &&
-                      (ev.type === 'invoice-paid' || ev.type === 'resource-used')
-                  ){
-                      let amount = ev.amount || 1
-                      reaction(amount)
-                  }
-              })
+      console.log("attempting socket auth ")
+      socket.emit('authentication', { token })
+      socket.on('authenticated', () => {
+          console.log('Connected with authentication!!!!*!~!!*~!~!~*~~')
+          socket.on('eventstream', ev => {
+              console.log('evstream', ev)
+              if (
+                  ev.resourceId === config.resourceId &&
+                  (ev.type === 'invoice-paid' || ev.type === 'resource-used')
+              ){
+                  let amount = ev.amount || 1
+                  reaction(amount)
+              }
           })
       })
+  })
 })

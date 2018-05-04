@@ -8,25 +8,23 @@ const pin27 = new Gpio(27, 'out')
 const pin22 = new Gpio(22, 'in', 'both')
 const pin23 = new Gpio(23, 'in', 'both')
 
-//
-// pin22.watch((err, value) => {
-//     console.log("pin changed: ", {value})
-// })
-//
-// pin23.watch((err, value) => {
-//     console.log("pin changed: ", {value})
-// })
+
+pin22.watch((err, value) => {
+    console.log("pin22: ", {value})
+})
+
+pin23.watch((err, value) => {
+    console.log("pin23: ", {value})
+})
 
 function checkHoppers () {
     pin22.read((err, value) => {
-        console.log({value})
+        console.log("pin22", {value})
     })
     pin23.read((err, value) => {
-        console.log({value})
+        console.log("pin23", {value})
     })
 }
-
-setInterval(checkHoppers, 10000)
 
 // pin18.writeSync(1)
 pin17.writeSync(0)
@@ -91,8 +89,8 @@ function bitPepsi(paymentStream) {
 }
 
 function beer(){
-    pin17.writeSync(1)
-    pin27.writeSync(1)
+    pin17.writeSync(1) // can hopper
+    pin27.writeSync(1) // goal light
     // pin18.writeSync(0)
     setTimeout(()=>{
         pin17.writeSync(0)
