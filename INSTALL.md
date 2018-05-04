@@ -6,10 +6,15 @@ Instructions to set up fobtap raspberry pi. This requires a running setup of ao.
 - Something to control with the gpio pins: door, bitpepsi
 
 ### 1. Set up raspbian on a microsd card
-Download the raspbian lite image from there site (https://www.raspberrypi.org/downloads/). Unzip it then write to your sd card. A good way to determine which drive is your sd card is by running `sudo fdisk -l` before and after plugging it in. Use that drive in the of= (output file) of the dd command.
+Download the raspbian lite image from there site (https://www.raspberrypi.org/downloads/). Unzip it then write to your micro sd card.  A good way to determine which drive is your sd card is by running `sudo fdisk -l` before and after plugging it in. Use that drive in the of= (output file) of the dd command.
 
 - `unzip 2018-04-18-raspbian-stretch-lite.zip`
 - `sudo dd bs=4M if=2018-04-18-raspbian-stretch-lite.img of=/dev/mmcblk0 conv=fsync`
+
+After this command finishes you should have a bootable microsd card that can go into the pi. After it boots it is good to run the following commands. The default username and password for raspbian is pi:raspberry.
+
+- `sudo apt-get update`
+- `sudo apt update`
 
 ### 2. Setup wifi (optional)
 Add the following to /etc/network/interfaces
@@ -31,7 +36,7 @@ iface wlan0 inet dhcp
 
 ### 3. Setup SSH
 
-- Enter sudo raspi-config in a terminal window
+- `sudo raspi-config `
 
 A configuration window will open: Select Interfacing Options , Navigate to and select SSH , Choose Yes, Select Ok, Choose Finish
 
@@ -42,6 +47,7 @@ A configuration window will open: Select Interfacing Options , Navigate to and s
 
 - `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
 - `nvm install stable`
+- `source .bashrc`
 
 ### 5. Initialize fobtap
 
@@ -70,3 +76,6 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 ```
+- `sudo systemctl enable fobtap.service`
+- `sudo systemctl start fobtap.service`
+- `systemctl status fobtap.service`

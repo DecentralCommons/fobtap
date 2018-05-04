@@ -1,14 +1,34 @@
-// XXX broken old format
-
 
 const Kefir = require('kefir')
 const Gpio = require('onoff').Gpio
 const pin17 = new Gpio(17, 'out')
-const pin18 = new Gpio(18, 'out')
+// const pin18 = new Gpio(18, 'out') // prev used for hardware test
 const pin27 = new Gpio(27, 'out')
 
-// pin18 goes low while pin 17 goes high pin trigger
-pin18.writeSync(1)
+const pin22 = new Gpio(22, 'in', 'both')
+const pin23 = new Gpio(23, 'in', 'both')
+
+//
+// pin22.watch((err, value) => {
+//     console.log("pin changed: ", {value})
+// })
+//
+// pin23.watch((err, value) => {
+//     console.log("pin changed: ", {value})
+// })
+
+function checkHoppers () {
+    pin22.read((err, value) => {
+        console.log({value})
+    })
+    pin23.read((err, value) => {
+        console.log({value})
+    })
+}
+
+setInterval(checkHoppers, 10000)
+
+// pin18.writeSync(1)
 pin17.writeSync(0)
 
 let dispenseStream = Kefir.stream(emitter => {
@@ -77,7 +97,7 @@ function beer(){
     setTimeout(()=>{
         pin17.writeSync(0)
         // pin18.writeSync(1)
-    }, 533)
+    }, 333)
     setTimeout(()=> {
         pin27.writeSync(0)
     }, 3333)

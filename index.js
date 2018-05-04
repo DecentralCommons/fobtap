@@ -3,6 +3,7 @@ const config = require('./configuration')
 const request = require('superagent')
 const cryptoUtils = require('./crypto')
 const fobtapStream = require('./fobtapStream')
+const socket = io('ws://' + config.brainLocation)
 const utils = require('./utils')
 const reaction = require('./reactions/' + config.reaction)
 const io = require('socket.io-client')
@@ -36,7 +37,6 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
           })
   })
 
-  const socket = io('ws://' + config.brainLocation)
   socket.on('connect', ()=> {
 
       socket.emit('authentication', {
