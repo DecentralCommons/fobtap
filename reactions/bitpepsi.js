@@ -31,7 +31,9 @@ pin17.writeSync(0)
 
 let dispenseStream = Kefir.stream(emitter => {
     emit = emitter.emit
-}).log()
+}).skipDuplicates()
+  .map(ev => ev.amount || 1)
+
 
 module.exports = emit
 

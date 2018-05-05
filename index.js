@@ -40,16 +40,12 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
       socket.emit('authentication', { token })
       socket.on('authenticated', () => {
           console.log('Connected with authentication!!!!*!~!!*~!~!~*~~')
-          socket.on('eventstream', ev => {
-              console.log('evstream', ev)
-              if (
-                  ev.resourceId === config.resourceId &&
-                  (ev.type === 'invoice-paid' || ev.type === 'resource-used')
-              ){
-                  let amount = ev.amount || 1
-                  reaction(amount)
-              }
-          })
+          socket.on('eventstream', reaction)
+      })
+
+      socket.on("disconnect", function() {
+          console.log('removing listeners')
+          socket.removeAllListeners()
       })
   })
 })
