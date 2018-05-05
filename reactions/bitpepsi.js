@@ -35,7 +35,10 @@ var dispenseStream = Kefir.stream(emitter => {
 }).skipDuplicates()
   .map(ev => (ev.amount || 1))
 
-module.exports = emit
+module.exports = function( ev ){
+    emit(ev)
+}
+
 bitPepsi(dispenseStream)
 
 // payment logic recieves stream of payments and ensures payouts are spaced out
@@ -90,6 +93,7 @@ function bitPepsi(paymentStream) {
 }
 
 function beer(){
+    console.log('triggering 17, 27 light')
     pin17.writeSync(1) // can hopper
     pin27.writeSync(1) // goal light
     // pin18.writeSync(0)
