@@ -8,7 +8,6 @@ const device = reader.open(config.fobReader)
 
 var fob = ""
 var emit = null
-
 module.exports = Kefir.stream(emitter => {
     emit = emitter.emit
 }).log()

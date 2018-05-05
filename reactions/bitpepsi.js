@@ -33,11 +33,9 @@ var emit
 var dispenseStream = Kefir.stream(emitter => {
     emit = emitter.emit
 }).skipDuplicates()
-  .map(ev => ev.amount || 1)
-
+  .map(ev => (ev.amount || 1))
 
 module.exports = emit
-
 bitPepsi(dispenseStream)
 
 // payment logic recieves stream of payments and ensures payouts are spaced out
