@@ -8,14 +8,14 @@ const pin27 = new Gpio(27, 'out')
 const pin22 = new Gpio(22, 'in', 'both')
 const pin23 = new Gpio(23, 'in', 'both')
 
-
-pin22.watch((err, value) => {
-    console.log("pin22: ", {value})
-})
-
-pin23.watch((err, value) => {
-    console.log("pin23: ", {value})
-})
+// XXX - information on empty hoppers
+// pin22.watch((err, value) => {
+//     console.log("pin22: ", {value})
+// })
+//
+// pin23.watch((err, value) => {
+//     console.log("pin23: ", {value})
+// })
 
 function checkHoppers () {
     pin22.read((err, value) => {
@@ -28,7 +28,6 @@ function checkHoppers () {
 
 // pin18.writeSync(1)
 pin17.writeSync(0)
-
 
 var emit
 var dispenseStream = Kefir.stream(emitter => {

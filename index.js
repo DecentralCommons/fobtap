@@ -15,23 +15,20 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
   fobtapStream
     .throttle(2345, {trailing: false})
     .onValue(fob => {
-
-      console.log('attempting to register fobtap with token:', token)
-
-      request
-          .post(config.brainLocation + 'fobtap')
-          .set('Authorization', token )
-          .send({
-              fob,
-              resourceId: config.resourceId
-          })
-          .end( (err, res)=>{
-              if (err) {
-                  console.log({err})
-              } else {
-                  console.log('fobtap registered!')
-              }
-          })
+        request
+            .post(config.brainLocation + 'fobtap')
+            .set('Authorization', token )
+            .send({
+                fob,
+                resourceId: config.resourceId
+            })
+            .end( (err, res) => {
+                if (err) {
+                    console.log({err})
+                } else {
+                    console.log('fobtap registered!')
+                }
+            })
   })
 
   const socket = io('ws://' + config.brainLocation)
