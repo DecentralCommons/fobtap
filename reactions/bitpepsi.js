@@ -29,7 +29,9 @@ function checkHoppers () {
 // pin18.writeSync(1)
 pin17.writeSync(0)
 
-let dispenseStream = Kefir.stream(emitter => {
+
+var emit
+var dispenseStream = Kefir.stream(emitter => {
     emit = emitter.emit
 }).skipDuplicates()
   .map(ev => ev.amount || 1)
