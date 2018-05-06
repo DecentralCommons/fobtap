@@ -1,4 +1,5 @@
 
+const config = require('../configuration')
 const Kefir = require('kefir')
 const Gpio = require('onoff').Gpio
 const pin17 = new Gpio(17, 'out')
@@ -33,6 +34,8 @@ var emit
 var dispenseStream = Kefir.stream(emitter => {
     emit = emitter.emit
 }).skipDuplicates()
+  .filter(ev => ev.resourceId === config.resourceId)
+  .filter( ev => (ev.type === 'resource-used' || ev.type === 'invoice-paid') )
   .map(ev => (ev.amount || 1))
 
 module.exports = function( ev ){
