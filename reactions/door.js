@@ -2,6 +2,7 @@
 const config = require('../configuration')
 const Gpio = require('onoff').Gpio
 const pin = new Gpio(17, 'out')
+const Kefir = require('kefir')
 
 var openStream = Kefir.stream(emitter => {
     emit = emitter.emit
