@@ -8,8 +8,7 @@ var openStream = Kefir.stream(emitter => {
     emit = emitter.emit
 }).skipDuplicates()
   .filter(ev => ev.resourceId === config.resourceId)
-  .filter( ev => ev.type === 'resource-used')
-  .map(ev => (ev.amount || 1))
+  .filter(ev => ev.type === 'resource-used')
   .onValue(door)
 
 module.exports = function( ev ){
