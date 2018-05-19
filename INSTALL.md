@@ -79,3 +79,23 @@ WantedBy=multi-user.target
 - `sudo systemctl enable fobtap.service`
 - `sudo systemctl start fobtap.service`
 - `systemctl status fobtap.service`
+
+### 7. Rename your Raspberry Pi's Hostname (e.g. pi@hostname)
+
+First, log onto your Pi and open a terminal window. Your Pi's name is in a file called 'hostname' in the /etc directory. If you are in your home folder you can get the `etc` directory by typing `cd /etc`. Edit that file as superuser with:
+
+    `sudo nano /etc/hostname`
+
+This file contains only one line - the name of your Pi.  Change the name to whatever you like, but only use the letters 'a' to 'z' (upper or lower), digits '0' to '9', and the dash '-'.
+
+Save the file using Ctrl+x, then Y followed by Enter.
+
+There is a second file that also contains the hostname, but it is only there as a workaround for some software.  Therefore you should also edit that file:
+
+    sudo nano /etc/hosts
+
+Find the line starting with 127.0.0.1, and change the name following it to your new hostname.  Save the file using Ctrl+x, then Y followed by Enter.
+
+Once you have rebooted your Pi, all other computers on your network should see it with the new hostname.  On the Pi itself, you can check your hostname by issuing the following command in a terminal window:
+
+    hostname
