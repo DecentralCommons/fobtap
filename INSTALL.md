@@ -82,7 +82,7 @@ WantedBy=multi-user.target
 
 ### 7. Rename your Raspberry Pi's Hostname (e.g. pi@hostname)
 
-First, log onto your Pi and open a terminal window. Your Pi's name is in a file called 'hostname' in the /etc directory. If you are in your home folder you can get the `etc` directory by typing `cd /etc`. Edit that file as superuser with:
+First, log onto your Pi and open a terminal window. Your Pi's name is in a file called 'hostname' in the /etc directory. Edit that file as superuser with:
 
     `sudo nano /etc/hostname`
 
