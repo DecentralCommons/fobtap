@@ -99,3 +99,6 @@ Find the line starting with 127.0.0.1, and change the name following it to your 
 Once you have rebooted your Pi, all other computers on your network should see it with the new hostname.  On the Pi itself, you can check your hostname by issuing the following command in a terminal window:
 
     hostname
+### 8. Change Password of your Raspberry Pi
+type `passwd`
+enter the default password `raspberry` and replace with a strong password (we reccomend using Keepass to generate a strong password)
