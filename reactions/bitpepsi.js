@@ -5,11 +5,10 @@ const Gpio = require('onoff').Gpio
 
 // pins connected to hoppers (dispense):
 const pin17 = new Gpio(17, 'out')
-
 // const pin18 = new Gpio(18, 'out') // prev used for hardware test
 
-// pins attached to hopper empty reader
-const pin22 = new Gpio(22, 'in', 'both')
+// pins attached to hopper empty reader // 22 - hopper 1
+const pin22 = new Gpio(22, 'in', 'both') // hopperOneCam
 const pin23 = new Gpio(23, 'in', 'both')
 
 // pin attached to goal light
@@ -17,8 +16,6 @@ const pin27 = new Gpio(27, 'out')
 
 // pins attached to motor (for safety if motor stays on we can kill)
 
-
-4
 // XXX - information on empty hoppers
 // pin22.watch((err, value) => {
 //     console.log("pin22: ", {value})
@@ -45,7 +42,7 @@ var dispenseStream = Kefir.stream(emitter => {
     emit = emitter.emit
 }).skipDuplicates()
   .filter(ev => ev.resourceId === config.resourceId)
-  .filter( ev => (ev.type === 'resource-used' || ev.type === 'invoice-paid') )
+  .filter( ev => ev.type === 'resource-used' )
   .map(ev => (ev.amount || 1))
 
 module.exports = function( ev ){

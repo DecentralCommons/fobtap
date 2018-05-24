@@ -43,21 +43,29 @@ A configuration window will open: Select Interfacing Options , Navigate to and s
 - sudo systemctl enable ssh
 - sudo systemctl start ssh
 
+Search the network:
+- `sudo nmap -sS -p 22 192.168.0.0/24`
+
+
 ### 4. Install node
 
 - `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
 - `nvm install stable`
 - `source .bashrc`
 
+
+
 ### 5. Initialize fobtap
 
-- `sudo apt install git`
+- `sudo apt-get install git`
 - `git clone https://github.com/dctrl-ao/fobtap.git`
 - `cd fobtap`
 - `npm install`
 - `node initialize.js`
 
 At this point it will bring up a command prompt asking for information about the "resource" you are about to set up. You need to tell it the location of your ao server, you also need a valid member username and password to authorize the resources creation.
+
+
 
 ### 6. Setup fobtap as a service
 

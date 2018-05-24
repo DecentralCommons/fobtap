@@ -29,7 +29,7 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
                     console.log('fobtap registered!')
                 }
             })
-  })
+    })
 
   const socket = io('ws://' + config.brainLocation)
   socket.on('connect', ()=> {
