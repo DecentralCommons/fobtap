@@ -42,7 +42,7 @@ utils.auth(config.brainLocation, config.resourceId, config.secret, (err, token)=
 
       socket.on("disconnect", function() {
           console.log('removing listeners')
-          socket.removeAllListeners()
+          throw new Error('socket disconnected')
       })
   })
 })
