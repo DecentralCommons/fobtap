@@ -17,9 +17,13 @@ const pin27 = new Gpio(27, 'out')
 // pins attached to motor (for safety if motor stays on we can kill)
 
 // XXX - information on empty hoppers
-// pin22.watch((err, value) => {
-//     console.log("pin22: ", {value})
-// })
+pin22.watch((err, value) => {
+    console.log("pin22: ", {value})
+    if (value == 0){
+        console.log('pin 22 watch setting motor low')
+        pin17.writeSync(0)
+    }
+})
 //
 // pin23.watch((err, value) => {
 //     console.log("pin23: ", {value})
@@ -105,12 +109,12 @@ function bitPepsi(paymentStream) {
 function beer(){
     console.log('triggering 17, 27 light')
     pin17.writeSync(1) // can hopper
-    pin27.writeSync(1) // goal light
-    // pin18.writeSync(0)
+    // emerg shutoff
     setTimeout(()=>{
         pin17.writeSync(0)
-        // pin18.writeSync(1)
-    }, 333)
+    }, 2333)
+
+    pin27.writeSync(1) // goal light
     setTimeout(()=> {
         pin27.writeSync(0)
     }, 3333)
