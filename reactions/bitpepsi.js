@@ -17,12 +17,9 @@ const pin27 = new Gpio(27, 'out')
 // pins attached to motor (for safety if motor stays on we can kill)
 
 // XXX - information on empty hoppers
-const pin22Stream = Kefir.stream(emitter => pin22Emit = emitter.emit)
-
-pin22.watch((err, value) => {
-    console.log("pin22: ", {value})
-    pin22Emit(value)
-})
+// pin22.watch((err, value) => {
+//     console.log("pin22: ", {value})
+// })
 //
 // pin23.watch((err, value) => {
 //     console.log("pin23: ", {value})
@@ -105,20 +102,15 @@ function bitPepsi(paymentStream) {
         .onValue(beer)
 }
 
-pin22Stream.onValue( v => {
-    console.log('pin22 triggered, turning off', {v})
-    if (v == 0){
-        pin17.writeSync(0)
-    }
-})
-
 function beer(){
     console.log('triggering 17, 27 light')
     pin17.writeSync(1) // can hopper
     pin27.writeSync(1) // goal light
-
     // pin18.writeSync(0)
-    // instead of it a set number of milli-seconds
+    setTimeout(()=>{
+        pin17.writeSync(0)
+        // pin18.writeSync(1)
+    }, 333)
     setTimeout(()=> {
         pin27.writeSync(0)
     }, 3333)
