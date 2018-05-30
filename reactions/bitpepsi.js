@@ -32,7 +32,6 @@ function checkHopper1 () {
             if (err) {
                 return reject()
             }
-            console.log("pin17", {value})
             resolve(value)
         })
     })
@@ -42,7 +41,6 @@ function checkHopper1 () {
             if (err) {
                 return reject()
             }
-            console.log("pin22", {value})
             resolve(value)
         })
     })
@@ -122,16 +120,36 @@ function bitPepsi(paymentStream) {
 function beer(){
     console.log('triggering 17, 27 light')
     pin17.writeSync(1) // can hopper
-    console.log('Finished turning pin high')
 
     let vendInterval = setInterval(()=>{
         checkHopper1()
-            .then(console.log)
+            .then(processVend)
             .catch(console.log)
     }, 50)
 
     setTimeout(()=>{
         console.log('')
         pin17.writeSync(0)
-    }, 2333)
+        clearInterval(vendInterval)
+    }, 3333)
+}
+
+// [pin17, pin22]
+// [motor, groove]
+function processVend(hopperState) {
+    switch (hopperState) {
+        case [0, 0]:
+            console.log('ready to vend')
+            break
+        case [1, 0]:
+            console.log('vending, not in groove')
+            break
+        case [0, 1]:
+            console.log('in groove, motor off -- !! bad state')
+            break
+        case [1, 1]:
+            console.log('vending, in groove')
+            break
+    }
+
 }
