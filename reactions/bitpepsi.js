@@ -24,22 +24,30 @@ pin22.watch((err, value) => {
         pin17.writeSync(0)
     }
 })
-//
-// pin23.watch((err, value) => {
-//     console.log("pin23: ", {value})
-// })
 
-function checkHoppers () {
+function checkHopper1 () {
+
+    const promise17 = new Promise()
+    pin17.read((err, value) => {
+        if (err) {
+            promise17.reject()
+        }
+        console.log("pin17", {value})
+        promise17.resolve(value)
+    })
+
+    const promise22 = new Promise()
     pin22.read((err, value) => {
-        console.log("pin22", {value})
-    })
-    pin23.read((err, value) => {
         console.log("pin23", {value})
+        promise22.resolve(value)
     })
+
+    return Promise.all([promise17, promise22])
+
 }
 
-// pin18.writeSync(1)
-pin17.writeSync(0)
+// Stages of Vend
+
 
 var emit
 var dispenseStream = Kefir.stream(emitter => {
@@ -109,13 +117,16 @@ function bitPepsi(paymentStream) {
 function beer(){
     console.log('triggering 17, 27 light')
     pin17.writeSync(1) // can hopper
-    // emerg shutoff
+    console.log('Finished turning pin high')
+
+    let vendInterval = setInterval(()=>{
+        checkHopper1
+            .then(console.log)
+            .catch(console.log)
+    }, 50)
+
     setTimeout(()=>{
+        console.log('')
         pin17.writeSync(0)
     }, 2333)
-
-    pin27.writeSync(1) // goal light
-    setTimeout(()=> {
-        pin27.writeSync(0)
-    }, 3333)
 }
