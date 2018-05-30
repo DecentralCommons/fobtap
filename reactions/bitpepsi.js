@@ -27,19 +27,24 @@ pin22.watch((err, value) => {
 
 function checkHopper1 () {
 
-    const promise17 = new Promise()
-    pin17.read((err, value) => {
-        if (err) {
-            promise17.reject()
-        }
-        console.log("pin17", {value})
-        promise17.resolve(value)
+    const promise17 = new Promise((resolve, reject)=> {
+        pin17.read((err, value) => {
+            if (err) {
+                return reject()
+            }
+            console.log("pin17", {value})
+            resolve(value)
+        })
     })
 
-    const promise22 = new Promise()
-    pin22.read((err, value) => {
-        console.log("pin23", {value})
-        promise22.resolve(value)
+    const promise22 = new Promise((resolve, reject)=> {
+        pin22.read((err, value) => {
+            if (err) {
+                return reject()
+            }
+            console.log("pin22", {value})
+            resolve(value)
+        })
     })
 
     return Promise.all([promise17, promise22])
@@ -120,7 +125,7 @@ function beer(){
     console.log('Finished turning pin high')
 
     let vendInterval = setInterval(()=>{
-        checkHopper1
+        checkHopper1()
             .then(console.log)
             .catch(console.log)
     }, 50)
