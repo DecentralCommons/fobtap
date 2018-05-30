@@ -137,17 +137,19 @@ function beer(){
 // [pin17, pin22]
 // [motor, groove]
 function processVend(hopperState) {
-    switch (hopperState) {
-        case [0, 0]:
+    let hs = (hopperState[0], hopperState[1])
+    switch (hs) {
+        case (0, 0):
             console.log('ready to vend')
             break
-        case [1, 0]:
+        case (1, 0):
             console.log('vending, not in groove')
             break
-        case [0, 1]:
+        case (0, 1):
             console.log('in groove, motor off -- !! bad state')
+            pin17.writeSync(1) // can hopper
             break
-        case [1, 1]:
+        case (1, 1):
             console.log('vending, in groove')
             break
     }
