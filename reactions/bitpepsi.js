@@ -12,7 +12,7 @@ const pin22 = new Gpio(22, 'in', 'both') // hopperOneCam
 const pin23 = new Gpio(23, 'in', 'both')
 
 // pin attached to goal light
-const pin27 = new Gpio(27, 'out')
+const pin4 = new Gpio(4, 'out')
 
 // pins attached to motor (for safety if motor stays on we can kill)
 
@@ -26,7 +26,6 @@ pin22.watch((err, value) => {
 })
 
 function checkHopper1 () {
-
     const promise17 = new Promise((resolve, reject)=> {
         pin17.read((err, value) => {
             if (err) {
@@ -46,7 +45,6 @@ function checkHopper1 () {
     })
 
     return Promise.all([promise17, promise22])
-
 }
 
 // Stages of Vend
@@ -118,24 +116,27 @@ function bitPepsi(paymentStream) {
 }
 
 function beer(){
-    console.log('triggering 17, 27 light')
-    pin17.writeSync(1) // can hopper
+    console.log('triggering 17 motor, 4 light')
+    pin17.writeSync(1)
+    pin4.writeSync(1)
 
     let vendInterval = setInterval(()=>{
         checkHopper1()
             .then(processVend)
             .catch(console.log)
-    }, 50)
+    }, 50 )
 
     setTimeout(()=>{
         console.log('')
         pin17.writeSync(0)
+        pin4.writeSync(0)
         clearInterval(vendInterval)
     }, 3333)
 }
 
 // [pin17, pin22]
 // [motor, groove]
+processVend()
 function processVend(hopperState) {
     let hs = (hopperState[0], hopperState[1])
     switch (hs) {
@@ -153,5 +154,4 @@ function processVend(hopperState) {
             console.log('vending, in groove')
             break
     }
-
 }
