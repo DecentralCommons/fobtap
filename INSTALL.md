@@ -46,7 +46,6 @@ A configuration window will open: Select Interfacing Options , Navigate to and s
 Search the network:
 - `sudo nmap -sS -p 22 192.168.0.0/24`
 
-
 ### 4. Install node
 
 - `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
@@ -109,4 +108,4 @@ Once you have rebooted your Pi, all other computers on your network should see i
     hostname
 ### 8. Change Password of your Raspberry Pi
 type `passwd`
-enter the default password `raspberry` and replace with a strong password (we reccomend using Keepass to generate a strong password)
+enter the default password `raspberry` and replace with a strong password (we reccomend using KeepassX to generate a strong password)

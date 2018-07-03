@@ -35,6 +35,13 @@ prompt.get([{
       type: 'string',
       required: true,
   }, {
+      name: 'trackStock',
+      default: 'rhodes',
+      default: 'true',
+      description: colors.white( 'Do you want to track stock?'),
+      type: 'boolean',
+      required: true
+  }, {
       name: 'hackername',
       default: 'rhodes',
       description: colors.white( 'Your dctrl hackername'),
@@ -55,7 +62,7 @@ prompt.get([{
               return prompt.stop()
           }
 
-          createResource(promptData.admin, token, promptData.name, promptData.charged, (err, resourceInfo)=> {
+          createResource(promptData.admin, token, promptData.name, promptData.charged, promptData.trackStock, (err, resourceInfo)=> {
               if (err){
                   console.log('creation failed, odd...')
                   console.log(err)
@@ -65,7 +72,7 @@ prompt.get([{
               console.log(colors.yellow("Going to guess which keyboard is the reader"))
               fs.readdir("/dev/input/by-id", function(err, items) {
                   console.log(colors.yellow("found input: ", items[0]))
-                  console.log({promptData})
+                  console.log({promptData, resourceInfo})
                   let str = "module.exports = " + JSON.stringify({
                       brainLocation: promptData.admin,
                       resourceId: resourceInfo.resourceId,
@@ -80,7 +87,7 @@ prompt.get([{
       })
 })
 
-function createResource(admin, token, name, charged, callback){
+function createResource(admin, token, name, charged, trackStock, callback){
     let resourceId = uuidV1()
     let rawSecret = uuidV4()
     let secret = cryptoUtils.createHash(rawSecret)
@@ -89,7 +96,8 @@ function createResource(admin, token, name, charged, callback){
         resourceId,
         name,
         charged,
-        secret
+        secret,
+        trackStock
     }
     console.log('attempting to create new resource:', name)
 
